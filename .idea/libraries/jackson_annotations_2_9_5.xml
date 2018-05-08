@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="jackson-annotations-2.9.5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/jackson-annotations-2.9.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jackson-core-2.9.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jackson-databind-2.9.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jackson-dataformat-xml-2.9.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jackson-module-jaxb-annotations-2.9.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/stax2-api-4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/woodstox-core-5.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
