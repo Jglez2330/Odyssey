@@ -1,15 +1,16 @@
 import Socket.Server;
+import org.jdom2.JDOMException;
 
 import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, JDOMException {
 
         Server server = Server.getServerInstance();
-        while (server.getClient().isConnected()){
-            server.listen();
-        }
+
+        server.listen();
+
 
 
     }
