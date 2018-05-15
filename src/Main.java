@@ -10,7 +10,8 @@ public class Main {
         Server server = Server.getServerInstance();
 
         server.listen();
-
+//        AVLTree tree = new AVLTree();
+//        tree.toString();
 
 
     }

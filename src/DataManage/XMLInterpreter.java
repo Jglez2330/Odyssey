@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.jdom2.Document;
 import org.jdom2.Element;
 
 import java.io.*;
@@ -40,6 +41,48 @@ public class XMLInterpreter {
 
 
     }
+    public static Document getSongsXML(int index) throws FileNotFoundException {
+        JsonArray dataBase = loadDataBase();
+
+        Document xml = new Document();
+        Element data = new Element("Data");
+        xml.setRootElement(data);
+        String style;
+        String nameSong;
+        String nameArtist;
+        String nameAlbum;
+        String year;
+        String lyrics;
+        String path;
+        int count = 0;
+        for (int i = 0; i < dataBase.size(); i ++ ) {
+
+            JsonObject cancion = (JsonObject) dataBase.get(i);
+            style = cancion.get("Style").getAsString();
+            nameSong = cancion.get("Song").getAsString();
+            nameArtist = cancion.get("Artist").getAsString();
+            nameAlbum = cancion.get("Album").getAsString();
+            year = cancion.get("Year").getAsString();
+            lyrics = cancion.get("Lyrics").getAsString();
+            path = cancion.get("SongPath").getAsString();
+
+            Element songData = new Element("SongData");
+            songData.addContent("Style").setText(style);
+            songData.addContent("SongName").setText(nameSong);
+            songData.addContent("ArtistName").setText(nameArtist);
+            songData.addContent("AlbumName").setText(nameAlbum);
+            songData.addContent("Year").setText(year);
+            songData.addContent("Lyrics").setText(lyrics);
+            songData.addContent("Path").setText(path);
+            xml.getRootElement().addContent(songData);
+
+
+        }
+        return xml;
+
+    }
+
+
 
     private static void saveDataBase(JsonArray dataBase) throws IOException {
         File file = new File("src/DataBase.JSON");
@@ -49,7 +92,10 @@ public class XMLInterpreter {
         fileWriter.flush();
     }
 
-    private static JsonArray loadDataBase() throws FileNotFoundException {
+
+
+
+    public static JsonArray loadDataBase() throws FileNotFoundException {
         JsonParser parser  = new JsonParser();
         File file = new File("src/DataBase.JSON");
 
@@ -58,6 +104,8 @@ public class XMLInterpreter {
 
         return dataBase;
     }
+
+
 
     public static void addSong(List listaElementos) throws IOException {
         String style = "";
@@ -101,4 +149,10 @@ public class XMLInterpreter {
 
         addSong(style,songName,artistName,albumName,year,lyrics,"Music" + "/" + songName + ".mp3", songBytes);
     }
+    public static void deleteSong(List listaElementos){
+
+    }
+
+
+
 }
