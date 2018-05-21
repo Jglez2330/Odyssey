@@ -1,5 +1,6 @@
 package DataManage;
 
+import Socket.Server;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -154,5 +155,125 @@ public class XMLInterpreter {
     }
 
 
+    public static void register(List listaElementos) throws IOException {
+        String user = "";
+        String password ="";
+
+        for (int i = 0; i< listaElementos.size(); i++){
+            Element element = (Element) listaElementos.get(i);
+            if (element.getName().contains("User")){
+
+                user = element.getContent().get(0).getValue();
+
+            }else if(element.getName().contains("Password")){
+
+                password = element.getContent().get(0).getValue();
+            }
+        }
+        register(user,password);
+    }
+
+    private static void register(String user, String password) throws IOException {
+        JsonArray usersDataBase = loadUserDataBase();
+        JsonArray usersDataBaseCopy = usersDataBase.deepCopy();
+        boolean isNew = true;
+        for (int i = 0; i < usersDataBase.size(); i++){
+            JsonObject element = (JsonObject) usersDataBase.get(i);
+            if (element.get("User").equals(user)){
+                isNew = false;
+                System.out.println("Error");
+                break;
+
+            }
+
+        }
+        if (isNew) {
+            JsonObject newSong = new JsonObject();
+            newSong.addProperty("User", user);
+            newSong.addProperty("Password", password);
+            usersDataBase.add(newSong);
+            usersDataBase.addAll(usersDataBaseCopy);
+
+            saveUsersDataBase(usersDataBase);
+        }
+
+
+    }
+
+    private static void saveUsersDataBase(JsonArray usersDataBase) throws IOException {
+        File file = new File("src/Users.JSON");
+        FileWriter fileWriter = new FileWriter(file.getAbsolutePath());
+        String dtabase = usersDataBase.toString();
+        fileWriter.write(dtabase);
+        fileWriter.flush();
+
+    }
+
+    private static JsonArray loadUserDataBase() throws FileNotFoundException {
+        JsonParser parser  = new JsonParser();
+        File file = new File("src/Users.JSON");
+
+
+        JsonArray dataBase = (JsonArray) parser.parse(new FileReader(file));
+
+        return dataBase;
+    }
+
+    public static void access(List listaElementos) throws IOException {
+        String password = "";
+        String user = "";
+
+        for (int i = 0; i< listaElementos.size(); i++) {
+            Element element = (Element) listaElementos.get(i);
+
+
+            if (element.getName().contains("Password")) {
+
+                password = element.getContent().get(0).getValue();
+
+            } else if (element.getName().contains("User")) {
+
+                user = element.getContent().get(0).getValue();
+            }
+
+        }
+        access(user,password);
+    }
+
+    private static void access(String user, String password) throws IOException {
+
+        JsonArray usersDataBase = loadUserDataBase();
+        Document xmlresponse = null;
+
+        for (int i = 0; i < usersDataBase.size(); i++){
+
+            JsonObject userDataBase = (JsonObject) usersDataBase.get(i);
+
+            if (userDataBase.get("User").getAsString().equals(user)){
+                if (userDataBase.get("Password").getAsString().equals(password)){
+                    xmlresponse = new Document();
+                    Element data = new Element("Data");
+                    xmlresponse.setRootElement(data);
+                    Element reply = new Element("Reply");
+                    reply.addContent("Granted");
+                    data.addContent(reply);
+                    Server.getServerInstance().send(xmlresponse);
+                    break;
+                }
+            }
+
+        }
+        if (xmlresponse == null){
+            xmlresponse = new Document();
+            Element data = new Element("Data");
+            xmlresponse.setRootElement(data);
+            Element reply = new Element("Reply");
+            reply.addContent("Block");
+            data.addContent(reply);
+            Server.getServerInstance().send(xmlresponse);
+
+        }
+
+    }
 
 }
