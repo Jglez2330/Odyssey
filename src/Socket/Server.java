@@ -97,6 +97,8 @@ public class Server implements Runnable{
                 XMLInterpreter.register(listaElementos);
             } else if (Integer.parseInt(opcode.getContent(0).getValue()) == 20) {
                 XMLInterpreter.access(listaElementos);
+            } else if (Integer.parseInt(opcode.getContent(0).getValue()) == 22) {
+                XMLInterpreter.retrieveUsers();
             }
             listen();
         }

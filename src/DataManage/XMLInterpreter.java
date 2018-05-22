@@ -177,9 +177,10 @@ public class XMLInterpreter {
         JsonArray usersDataBase = loadUserDataBase();
         JsonArray usersDataBaseCopy = usersDataBase.deepCopy();
         boolean isNew = true;
+        Document xmlresponse;
         for (int i = 0; i < usersDataBase.size(); i++){
             JsonObject element = (JsonObject) usersDataBase.get(i);
-            if (element.get("User").equals(user)){
+            if (element.get("User").getAsString().equals(user)){
                 isNew = false;
                 System.out.println("Error");
                 break;
@@ -194,7 +195,29 @@ public class XMLInterpreter {
             usersDataBase.add(newSong);
             usersDataBase.addAll(usersDataBaseCopy);
 
+            xmlresponse = new Document();
+            Element data = new Element("Data");
+            xmlresponse.setRootElement(data);
+            Element reply = new Element("Reply");
+            reply.addContent("Granted");
+            data.addContent(reply);
+            Server.getServerInstance().send(xmlresponse);
+
             saveUsersDataBase(usersDataBase);
+
+
+        }else{
+
+            xmlresponse = new Document();
+            Element data = new Element("Data");
+            xmlresponse.setRootElement(data);
+            Element reply = new Element("Reply");
+            data.addContent(reply);
+            reply.addContent("Block");
+
+            Server.getServerInstance().send(xmlresponse);
+
+
         }
 
 
@@ -274,6 +297,24 @@ public class XMLInterpreter {
 
         }
 
+    }
+    public static void retrieveUsers() throws IOException {
+        JsonArray usersDataBase = loadUserDataBase();
+        Document xml = new Document();
+        Element data = new Element("Data");
+        String userName = "";
+        xml.setRootElement(data);
+        for (int i = 0; i < usersDataBase.size(); i++){
+
+            JsonObject user = (JsonObject) usersDataBase.get(i);
+            userName = user.get("User").getAsString();
+            Element element = new Element("User");
+            element.addContent(userName);
+            data.addContent(element);
+            System.out.println(userName);
+        }
+        Server.getServerInstance().send(xml);
+        System.out.println(xml.toString());
     }
 
 }
