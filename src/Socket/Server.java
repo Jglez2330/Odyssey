@@ -56,6 +56,7 @@ public class Server implements Runnable{
         client.getSendBufferSize();
         PrintWriter printWriter = new PrintWriter(this.client.getOutputStream());
         printWriter.println(new XMLOutputter().outputString(xml));
+        printWriter.println("\u0001");
         printWriter.flush();
 
     }
@@ -99,6 +100,9 @@ public class Server implements Runnable{
                 XMLInterpreter.access(listaElementos);
             } else if (Integer.parseInt(opcode.getContent(0).getValue()) == 22) {
                 XMLInterpreter.retrieveUsers();
+            }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 2){
+                XMLInterpreter.getSongsXML(0);
+
             }
             listen();
         }

@@ -2,7 +2,6 @@ package DataManage;
 
 import Socket.Server;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.jdom2.Document;
@@ -42,7 +41,7 @@ public class XMLInterpreter {
 
 
     }
-    public static Document getSongsXML(int index) throws FileNotFoundException {
+    public static Document getSongsXML(int index) throws IOException {
         JsonArray dataBase = loadDataBase();
 
         Document xml = new Document();
@@ -56,7 +55,7 @@ public class XMLInterpreter {
         String lyrics;
         String path;
         int count = 0;
-        for (int i = 0; i < dataBase.size(); i ++ ) {
+        for (int i = count; i < dataBase.size(); i ++ ) {
 
             JsonObject cancion = (JsonObject) dataBase.get(i);
             style = cancion.get("Style").getAsString();
@@ -67,18 +66,37 @@ public class XMLInterpreter {
             lyrics = cancion.get("Lyrics").getAsString();
             path = cancion.get("SongPath").getAsString();
 
+
+
             Element songData = new Element("SongData");
-            songData.addContent("Style").setText(style);
-            songData.addContent("SongName").setText(nameSong);
-            songData.addContent("ArtistName").setText(nameArtist);
-            songData.addContent("AlbumName").setText(nameAlbum);
-            songData.addContent("Year").setText(year);
-            songData.addContent("Lyrics").setText(lyrics);
-            songData.addContent("Path").setText(path);
-            xml.getRootElement().addContent(songData);
+            Element styleElement = new Element("Style").setText(style);
+            Element songNameElement = new Element("SongName").setText(nameSong);
+            Element artistElement = new Element("ArtistName").setText(nameArtist);
+            Element albumElement = new Element("AlbumName").setText(nameAlbum);
+            Element yearElement = new Element("Year").setText(year);
+            Element lyricsElement = new Element("Lyrics").setText(lyrics);
+            Element pathElement = new Element("Path").setText(path);
+            songData.addContent(styleElement);
+            songData.addContent(songNameElement);
+            songData.addContent(artistElement);
+            songData.addContent(albumElement);
+            songData.addContent(yearElement);
+            songData.addContent(lyricsElement);
+            songData.addContent(pathElement);
+
+
+
+
+            data.addContent(songData);
+
+            break;
 
 
         }
+        System.out.println(xml.getRootElement().getContent());
+        System.out.println(Server.getServerInstance().getClient().getSendBufferSize());
+        System.out.println(Server.getServerInstance().getClient().getSendBufferSize());
+        Server.getServerInstance().send(xml);
         return xml;
 
     }
@@ -140,7 +158,7 @@ public class XMLInterpreter {
         //String path = System.getProperty("user.home") + File.separator
         //File file2 = new File("DataBase.mp3");
 
-        File file = new File("Music" + "/" + songName + ".mp3");
+        File file = new File("Music" + "/" + songName + ".wav");
         if (!file.exists()){
             file.createNewFile();
         }//if (!file2.exists()){
@@ -148,7 +166,7 @@ public class XMLInterpreter {
         //}
 
 
-        addSong(style,songName,artistName,albumName,year,lyrics,"Music" + "/" + songName + ".mp3", songBytes);
+        addSong(style,songName,artistName,albumName,year,lyrics,"Music" + "/" + songName + ".wav", songBytes);
     }
     public static void deleteSong(List listaElementos){
 
