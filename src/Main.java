@@ -1,18 +1,23 @@
-import Socket.Server;
+import java.io.IOException;
+
 import org.jdom2.JDOMException;
 
-import java.io.IOException;
+import DataStructuress.AVLTree;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, JDOMException {
+	public static void main(String[] args) throws IOException, JDOMException {
 
-        Server server = Server.getServerInstance();
+        //Server server = Server.getServerInstance();
 
-        server.listen();
-//        AVLTree tree = new AVLTree();
-//        tree.toString();
+        //server.listen();
+		AVLTree tree = new AVLTree();
+		tree.radixSort();
+        
+        
+        
 
 
     }
 }
+
