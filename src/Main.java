@@ -1,18 +1,20 @@
 import java.io.IOException;
 
+import Socket.Server;
 import org.jdom2.JDOMException;
 
-import DataStructuress.BTree;
+import DataStructuress.AVLTree;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException, JDOMException {
 
-        //Server server = Server.getServerInstance();
+        Server server = Server.getServerInstance();
 
-        //server.listen();
-		BTree tree = new BTree(2);
-		tree.quickSort();		
+        server.listen();
+		//AVLTree tree = new AVLTree();
+		//tree.radixSort();
+        
         
         
 
