@@ -66,7 +66,11 @@ public class XMLInterpreter {
             lyrics = cancion.get("Lyrics").getAsString();
             path = cancion.get("SongPath").getAsString();
 
+            //Element songData = new Element("SongData");
+            //String songDataString = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(path)));
 
+            //songData.setText(songDataString.substring(0,songDataString.length()/3));
+            //System.out.println(songDataString.length()/3%4);
 
             Element songData = new Element("SongData");
             Element styleElement = new Element("Style").setText(style);
@@ -76,6 +80,9 @@ public class XMLInterpreter {
             Element yearElement = new Element("Year").setText(year);
             Element lyricsElement = new Element("Lyrics").setText(lyrics);
             Element pathElement = new Element("Path").setText(path);
+            //String songDataString = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(path)));
+            //Element songString = new Element("SongString").setText(songDataString.substring(0,songDataString.length()/12));
+
             songData.addContent(styleElement);
             songData.addContent(songNameElement);
             songData.addContent(artistElement);
@@ -83,13 +90,16 @@ public class XMLInterpreter {
             songData.addContent(yearElement);
             songData.addContent(lyricsElement);
             songData.addContent(pathElement);
+            //songData.addContent(songString);
+
+            //System.out.println(songDataString.substring(0,songDataString.length()/20));
 
 
 
 
             data.addContent(songData);
 
-            break;
+
 
 
         }
@@ -335,4 +345,50 @@ public class XMLInterpreter {
         System.out.println(xml.toString());
     }
 
+    public static void getSongsXML(List listaElementos) throws IOException {
+        int index = 0;
+        for (int i = 0; i < listaElementos.size(); i++){
+            Element element = (Element) listaElementos.get(i);
+            if (element.getName().contains("Index")){
+                index = Integer.parseInt(element.getContent().get(0).getValue());
+            }
+        }
+        getSongsXML(index);
+    }
+
+    public static void getRequestedSong(List listaElementos) throws IOException {
+        String song = "";
+        String artist = "";
+        for (int i = 0; i < listaElementos.size(); i++) {
+            Element element = (Element) listaElementos.get(i);
+            if (element.getName().contains("Song")) {
+                song = element.getContent().get(0).getValue();
+            } else if (element.getName().contains("Artist")) {
+                artist = element.getContent().get(0).getValue();
+            }
+        }
+        getRequestedSong(song,artist);
+    }
+
+    private static void getRequestedSong(String song, String artist) throws IOException {
+        JsonArray dataBase = loadDataBase();
+
+        for (int i = 0; i < dataBase.size();i++){
+            JsonObject object = (JsonObject) dataBase.get(i);
+
+            if (object.get("Song").getAsString().equals(song) && object.get("Artist").getAsString().equals(artist)){
+                Document xml = new Document();
+                Element root = new Element("Data");
+                xml.setRootElement(root);
+                Element reply = new Element("Reply");
+                String path = object.get("SongPath").getAsString();
+                String stringSong = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(path)));
+                stringSong = stringSong.substring(0,stringSong.length()/15);
+                reply.setText(stringSong);
+                root.addContent(reply);
+                Server.getServerInstance().send(xml);
+
+            }
+        }
+    }
 }

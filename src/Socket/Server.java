@@ -26,6 +26,8 @@ public class Server implements Runnable{
     private Socket client;
     private BufferedReader in;
 
+    private int numberPages = 0;
+
     /**
      * Metodo para obtener la instancia de server, es un singleton
      * @return Server
@@ -102,7 +104,10 @@ public class Server implements Runnable{
             } else if (Integer.parseInt(opcode.getContent(0).getValue()) == 22) {
                 XMLInterpreter.retrieveUsers();
             }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 2){
-                XMLInterpreter.getSongsXML(0);
+                XMLInterpreter.getSongsXML(listaElementos);
+
+            }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 30){
+                XMLInterpreter.getRequestedSong(listaElementos);
 
             }
             listen();
