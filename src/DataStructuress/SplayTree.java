@@ -143,7 +143,7 @@ public class SplayTree {
     	int n = albumNames.length;  
     	JsonObject temp = null;  
     	for(int i=0; i < n; i++){  
-    		for(int j=1; j < (n-i); j++){  
+    		for(int j=1; j < (n-i); j++){
     			if(albumNames[j-1].get("Album").getAsString().compareTo(albumNames[j].get("Album").getAsString()) > 0){  
     				temp = albumNames[j-1];  
     				albumNames[j-1] = albumNames[j];  

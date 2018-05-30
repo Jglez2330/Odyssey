@@ -26,6 +26,8 @@ public class Server implements Runnable{
     private Socket client;
     private BufferedReader in;
 
+    private int numberPages = 0;
+
     /**
      * Metodo para obtener la instancia de server, es un singleton
      * @return Server
@@ -71,16 +73,13 @@ public class Server implements Runnable{
         while ((data = in.readLine()) != null){
             System.out.println(data);
             if (data.contains("Close")){
-                PrintWriter printWriter = new PrintWriter(this.client.getOutputStream());
-                printWriter.println("Close");
-                printWriter.flush();
-                this.client.close();
+
                 break;
             }else {
                 xml.append(data);
             }
         }
-        this.client.close();
+
 
 
 
@@ -90,7 +89,7 @@ public class Server implements Runnable{
             SAXBuilder saxBuilder = new SAXBuilder();
             Document document = saxBuilder.build(new StringReader(xml.toString()));
             Element root = document.getRootElement();
-            List<?> listaElementos = root.getChildren();
+            List<Element> listaElementos = root.getChildren();
             System.out.println(listaElementos);
             Element opcode = (Element) listaElementos.get(0);
             if (Integer.parseInt(opcode.getContent(0).getValue()) == 0) {
@@ -102,7 +101,25 @@ public class Server implements Runnable{
             } else if (Integer.parseInt(opcode.getContent(0).getValue()) == 22) {
                 XMLInterpreter.retrieveUsers();
             }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 2){
-                XMLInterpreter.getSongsXML(0);
+                XMLInterpreter.getSongsXML(listaElementos);
+
+            }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 30){
+                XMLInterpreter.getRequestedSong(listaElementos);
+
+            }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 3){
+                XMLInterpreter.streamingSong();
+
+            }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 24){
+                XMLInterpreter.deleteSong(listaElementos);
+
+            }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 25){
+                XMLInterpreter.RequestSongInfo(listaElementos);
+
+            }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 40){
+                XMLInterpreter.Sort(listaElementos);
+
+            }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 23){
+                XMLInterpreter.Sort(listaElementos);
 
             }
             listen();

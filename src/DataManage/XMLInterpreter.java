@@ -1,5 +1,8 @@
 package DataManage;
 
+import DataStructuress.AVLTree;
+import DataStructuress.BTree;
+import DataStructuress.SplayTree;
 import Socket.Server;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -15,9 +18,17 @@ import java.util.List;
 
 public class XMLInterpreter {
 
+    private static int page = 0;
+    private static int pageCant = 0;
+    private static String songPlaying = "";
+    private static String artistPlaying = "";
+    private static int actualChunk = 0;
+    private static String loggedUser = "";
+
+
     private static void addSong(String style, String nameSong,String nameArtist, String nameAlbum, String year, String lyrics, String path,byte[] songBytes) throws IOException {
         JsonArray dataBase = loadDataBase();
-        JsonArray dataBaseCopy = dataBase.deepCopy();
+        //JsonArray dataBaseCopy = dataBase.deepCopy();
         JsonObject newSong = new JsonObject();
         newSong.addProperty("Style",style);
         newSong.addProperty("Song",nameSong);
@@ -27,7 +38,7 @@ public class XMLInterpreter {
         newSong.addProperty("Lyrics",lyrics);
         newSong.addProperty("SongPath",path);
         dataBase.add(newSong);
-        dataBase.addAll(dataBaseCopy);
+        //dataBase.addAll(dataBaseCopy);
 
         Files.write(Paths.get(path),songBytes);
 
@@ -43,6 +54,8 @@ public class XMLInterpreter {
     }
     public static Document getSongsXML(int index) throws IOException {
         JsonArray dataBase = loadDataBase();
+        pageCant = dataBase.size()/4;
+        System.out.println(pageCant);
 
         Document xml = new Document();
         Element data = new Element("Data");
@@ -54,8 +67,12 @@ public class XMLInterpreter {
         String year;
         String lyrics;
         String path;
-        int count = 0;
-        for (int i = count; i < dataBase.size(); i++ ) {
+        int count = Math.abs(pageCant*index*4);
+        int cantObjects = 0;
+        for (int i = count; i < dataBase.size(); i ++ ) {
+            if (cantObjects == 4){
+                break;
+            }
 
             JsonObject cancion = (JsonObject) dataBase.get(i);
             style = cancion.get("Style").getAsString();
@@ -66,7 +83,11 @@ public class XMLInterpreter {
             lyrics = cancion.get("Lyrics").getAsString();
             path = cancion.get("SongPath").getAsString();
 
+            //Element songData = new Element("SongData");
+            //String songDataString = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(path)));
 
+            //songData.setText(songDataString.substring(0,songDataString.length()/3));
+            //System.out.println(songDataString.length()/3%4);
 
             Element songData = new Element("SongData");
             Element styleElement = new Element("Style").setText(style);
@@ -76,6 +97,9 @@ public class XMLInterpreter {
             Element yearElement = new Element("Year").setText(year);
             Element lyricsElement = new Element("Lyrics").setText(lyrics);
             Element pathElement = new Element("Path").setText(path);
+            //String songDataString = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(path)));
+            //Element songString = new Element("SongString").setText(songDataString.substring(0,songDataString.length()/12));
+
             songData.addContent(styleElement);
             songData.addContent(songNameElement);
             songData.addContent(artistElement);
@@ -83,13 +107,17 @@ public class XMLInterpreter {
             songData.addContent(yearElement);
             songData.addContent(lyricsElement);
             songData.addContent(pathElement);
+            //songData.addContent(songString);
+
+            //System.out.println(songDataString.substring(0,songDataString.length()/20));
 
 
 
 
+            cantObjects++;
             data.addContent(songData);
 
-            break;
+
 
 
         }
@@ -158,7 +186,7 @@ public class XMLInterpreter {
         //String path = System.getProperty("user.home") + File.separator
         //File file2 = new File("DataBase.mp3");
 
-        File file = new File("Music" + "/" + songName + ".wav");
+        File file = new File("Music" + "/" + songName + ".mp3");
         if (!file.exists()){
             file.createNewFile();
         }//if (!file2.exists()){
@@ -166,16 +194,49 @@ public class XMLInterpreter {
         //}
 
 
-        addSong(style,songName,artistName,albumName,year,lyrics,"Music" + "/" + songName + ".wav", songBytes);
+        addSong(style,songName,artistName,albumName,year,lyrics,"Music" + "/" + songName + ".mp3", songBytes);
     }
-    public static void deleteSong(List listaElementos){
+    public static void deleteSong(List listaElementos) throws IOException {
+        String name = "";
+        String artist = "";
+        for (int i = 0; i < listaElementos.size(); i++){
+            Element element = (Element) listaElementos.get(i);
+            if (element.getName().equals("SongName")){
+                name  = element.getContent().get(0).getValue();
+            }else if (element.getName().equals("Artist")){
+                  artist = element.getContent().get(0).getValue();
+            }
 
+        }
+        deleteSong(name,artist);
+
+    }
+
+    private static void deleteSong(String name, String artist) throws IOException {
+        JsonArray dataBase = loadDataBase();
+        JsonArray newDataBase = new JsonArray();
+
+        for (int i = 0; i < dataBase.size();i++){
+            JsonObject jsonSong = (JsonObject) dataBase.get(i);
+            if (jsonSong.get("Song").getAsString().equals(name) && jsonSong.get("Artist").getAsString().equals(artist)){
+                Files.delete(Paths.get(jsonSong.get("SongPath").getAsString()));
+
+            }else{
+                newDataBase.add(jsonSong);
+            }
+
+        }
+        saveDataBase(newDataBase);
     }
 
 
     public static void register(List listaElementos) throws IOException {
         String user = "";
         String password ="";
+        String style ="";
+        String name ="";
+        String age ="";
+        String friends ="";
 
         for (int i = 0; i< listaElementos.size(); i++){
             Element element = (Element) listaElementos.get(i);
@@ -186,14 +247,26 @@ public class XMLInterpreter {
             }else if(element.getName().contains("Password")){
 
                 password = element.getContent().get(0).getValue();
+            }else if(element.getName().contains("Style")){
+
+                style = element.getContent().get(0).getValue();
+            }else if(element.getName().contains("Name")){
+
+                name = element.getContent().get(0).getValue();
+            }else if(element.getName().contains("Age")){
+
+                age = element.getContent().get(0).getValue();
+            }else if(element.getName().contains("Friends")){
+
+                friends = element.getContent().get(0).getValue();
             }
         }
-        register(user,password);
+        register(user,password,style,name,age,friends);
     }
 
-    private static void register(String user, String password) throws IOException {
+    private static void register(String user, String password,String style,String name, String age, String friends) throws IOException {
         JsonArray usersDataBase = loadUserDataBase();
-        JsonArray usersDataBaseCopy = usersDataBase.deepCopy();
+        //JsonArray usersDataBaseCopy = usersDataBase.deepCopy();
         boolean isNew = true;
         Document xmlresponse;
         for (int i = 0; i < usersDataBase.size(); i++){
@@ -210,8 +283,15 @@ public class XMLInterpreter {
             JsonObject newSong = new JsonObject();
             newSong.addProperty("User", user);
             newSong.addProperty("Password", password);
+            newSong.addProperty("Style", style);
+            newSong.addProperty("Name", name);
+            newSong.addProperty("Age", age);
+            newSong.addProperty("Friends", friends);
+            newSong.addProperty("Messages", "");
+            loggedUser = user;
+
             usersDataBase.add(newSong);
-            usersDataBase.addAll(usersDataBaseCopy);
+            //usersDataBase.addAll(usersDataBaseCopy);
 
             xmlresponse = new Document();
             Element data = new Element("Data");
@@ -292,6 +372,7 @@ public class XMLInterpreter {
 
             if (userDataBase.get("User").getAsString().equals(user)){
                 if (userDataBase.get("Password").getAsString().equals(password)){
+                    loggedUser = user;
                     xmlresponse = new Document();
                     Element data = new Element("Data");
                     xmlresponse.setRootElement(data);
@@ -335,4 +416,159 @@ public class XMLInterpreter {
         System.out.println(xml.toString());
     }
 
+    public static void getSongsXML(List listaElementos) throws IOException {
+        int index = 0;
+        for (int i = 0; i < listaElementos.size(); i++){
+            Element element = (Element) listaElementos.get(i);
+            if (element.getName().contains("Index")){
+                index = Integer.parseInt(element.getContent().get(0).getValue());
+            }
+        }
+        getSongsXML(index);
+    }
+
+    public static void getRequestedSong(List listaElementos) throws IOException {
+        String song = "";
+        String artist = "";
+        for (int i = 0; i < listaElementos.size(); i++) {
+            Element element = (Element) listaElementos.get(i);
+            if (element.getName().contains("Song")) {
+                song = element.getContent().get(0).getValue();
+            } else if (element.getName().contains("Artist")) {
+                artist = element.getContent().get(0).getValue();
+            }
+        }
+        getRequestedSong(song,artist);
+    }
+
+
+    public static void streamingSong() throws IOException {
+        JsonArray dataBase = loadDataBase();
+
+        for (int i = 0; i < dataBase.size();i++){
+            JsonObject object = (JsonObject) dataBase.get(i);
+
+            if (object.get("Song").equals(songPlaying) && object.get("Artist").getAsString().equals(artistPlaying)){
+
+                Document xml = new Document();
+                Element root = new Element("Data");
+                xml.setRootElement(root);
+                Element reply = new Element("Reply");
+                String path = object.get("SongPath").getAsString();
+                String stringSong = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(path)));
+                if (stringSong.length() <stringSong.length()/10 * actualChunk )
+                {
+                    reply.setText("End");
+                    songPlaying = "";
+                    artistPlaying = "";
+                }else {
+                    stringSong = stringSong.substring(actualChunk * stringSong.length() , (actualChunk + 1) * stringSong.length() );
+
+                    //stringSong = stringSong.substring(0,stringSong.length());
+                    while (stringSong.length() % 4 != 0) {
+                        stringSong = stringSong.substring(0, stringSong.length() - 1);
+                    }
+                    songPlaying = object.get("Song").getAsString();
+                    artistPlaying = object.get("Artist").getAsString();
+                    reply.setText(stringSong);
+
+                    actualChunk++;
+                }
+                root.addContent(reply);
+
+                Server.getServerInstance().send(xml);
+
+            }
+        }
+
+    }
+
+
+    private static void getRequestedSong(String song, String artist) throws IOException {
+        JsonArray dataBase = loadDataBase();
+
+        for (int i = 0; i < dataBase.size();i++){
+            JsonObject object = (JsonObject) dataBase.get(i);
+
+            if (object.get("Song").getAsString().equals(song) && object.get("Artist").getAsString().equals(artist)){
+                Document xml = new Document();
+                Element root = new Element("Data");
+                xml.setRootElement(root);
+                Element reply = new Element("Reply");
+                String path = object.get("SongPath").getAsString();
+                String stringSong = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(path)));
+                stringSong = stringSong.substring(actualChunk*stringSong.length(),(actualChunk + 1)* stringSong.length());
+                //stringSong = stringSong.substring(0,stringSong.length());
+                while (stringSong.length() % 4 != 0){
+                    stringSong = stringSong.substring(0,stringSong.length()-1);
+                }
+
+                songPlaying = object.get("Song").getAsString();
+                artistPlaying = object.get("Artist").getAsString();
+                reply.setText(stringSong);
+                root.addContent(reply);
+                Element length = new Element("Length");
+                length.addContent((String.valueOf( Files.readAllBytes(Paths.get(path)).length)));
+                root.addContent(length);
+                Server.getServerInstance().send(xml);
+
+            }
+        }
+    }
+
+
+    public static void RequestSongInfo(List<Element> listaElementos) throws FileNotFoundException {
+        String song = "";
+        String artist = "";
+        for (int i = 0; i < listaElementos.size(); i++) {
+            Element element = (Element) listaElementos.get(i);
+             if (element.getName().contains("Artist")) {
+                artist = element.getContent().get(0).getValue();
+            }else if (element.getName().contains("Song")) {
+                song = element.getContent().get(0).getValue();
+            }
+        }
+        getRequestedSongInfo(song,artist);
+
+
+    }
+
+    private static void getRequestedSongInfo(String song, String artist) throws FileNotFoundException {
+        JsonArray dataBase = loadDataBase();
+
+        for (int i  = 0; i < dataBase.size(); i++){
+            JsonObject object = (JsonObject) dataBase.get(i);
+
+            if (object.get("Song").getAsString().equals(song) && object.get("Artist").getAsString().equals(artist)){
+                Document xml = new Document();
+                
+            }
+
+        }
+    }
+
+    public static void Sort(List<Element> listaElementos) throws IOException {
+
+        for (int i = 0; i < listaElementos.size(); i++){
+            Element element = (Element) listaElementos.get(i);
+            if (element.getName().equals("Sort")){
+                String sort = element.getContent().get(0).getValue();
+
+                if (sort.equals("Cancion")){
+                    BTree bTree = new BTree(0);
+                    bTree.quickSort();
+
+                }else if (sort.contains("Artista")){
+
+                    AVLTree avlTree = new AVLTree();
+                    avlTree.radixSort();
+
+                }else if (sort.contains("Album")){
+                    SplayTree splayTree = new SplayTree();
+                    splayTree.bubbleSort();
+                }
+            }
+        }
+
+    }
 }

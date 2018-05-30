@@ -121,6 +121,7 @@ public class AVLTree {
     }
 
     public void radixSort() throws IOException {
+    	this.dataBase = XMLInterpreter.loadDataBase();
     	artistNames = new JsonObject[this.dataBase.size()];
     	for (int i = 0; i < artistNames.length; i++){
     		artistNames[i] = (JsonObject) this.dataBase.get(i);

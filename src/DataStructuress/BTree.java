@@ -121,7 +121,7 @@ public class BTree {
     		newArray.add(songNames[i]);
     	}
     	XMLInterpreter.saveDataBase(newArray); 
-    	buildTree(songNames);
+    	//buildTree(songNames);
 
     }
 
