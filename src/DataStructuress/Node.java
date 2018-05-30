@@ -1,34 +1,37 @@
 package DataStructuress;
 
-public class Node<T> {
-    private Node<T> left;
-    private Node<T> right;
-    private T data;
+import com.google.gson.JsonObject;
+
+public class Node {
+    private Node left;
+    private Node right;
+    private JsonObject data;
     private int height;
 
-    public Node(T data){
+    public Node(JsonObject data){
         this.data = data;
         left = null;
         right = null;
     }
 
-    public void setLeft(Node<T> left) {
+    public void setLeft(Node left) {
         this.left = left;
     }
 
-    public void setRight(Node<T> right) {
+    public void setRight(Node right) {
         this.right = right;
     }
 
-    public T getData() {
+    public JsonObject getData() {
         return data;
     }
+    
 
-    public Node<T> getLeft() {
+    public Node getLeft() {
         return left;
     }
 
-    public Node<T> getRight() {
+    public Node getRight() {
         return right;
     }
 
@@ -38,6 +41,10 @@ public class Node<T> {
 
 	public void setHeight(int i) {
 		height = i;
+	}
+
+	public void setData(JsonObject data) {
+		this.data = data;
 	}
 }
 

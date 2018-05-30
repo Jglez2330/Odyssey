@@ -55,7 +55,7 @@ public class XMLInterpreter {
         String lyrics;
         String path;
         int count = 0;
-        for (int i = count; i < dataBase.size(); i ++ ) {
+        for (int i = count; i < dataBase.size(); i++ ) {
 
             JsonObject cancion = (JsonObject) dataBase.get(i);
             style = cancion.get("Style").getAsString();
@@ -103,7 +103,7 @@ public class XMLInterpreter {
 
 
 
-    private static void saveDataBase(JsonArray dataBase) throws IOException {
+    public static void saveDataBase(JsonArray dataBase) throws IOException {
         File file = new File("src/DataBase.JSON");
         FileWriter fileWriter = new FileWriter(file.getAbsolutePath());
         String dtabase = dataBase.toString();

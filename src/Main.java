@@ -2,7 +2,7 @@ import java.io.IOException;
 
 import org.jdom2.JDOMException;
 
-import DataStructuress.AVLTree;
+import DataStructuress.BTree;
 
 public class Main {
 
@@ -11,9 +11,8 @@ public class Main {
         //Server server = Server.getServerInstance();
 
         //server.listen();
-		AVLTree tree = new AVLTree();
-		tree.radixSort();
-        
+		BTree tree = new BTree(2);
+		tree.quickSort();		
         
         
 
