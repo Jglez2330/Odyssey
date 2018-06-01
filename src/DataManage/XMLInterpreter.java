@@ -131,7 +131,7 @@ public class XMLInterpreter {
 
 
 
-    public static void saveDataBase(JsonArray dataBase) throws IOException {
+    private static void saveDataBase(JsonArray dataBase) throws IOException {
         File file = new File("src/DataBase.JSON");
         FileWriter fileWriter = new FileWriter(file.getAbsolutePath());
         String dtabase = dataBase.toString();
