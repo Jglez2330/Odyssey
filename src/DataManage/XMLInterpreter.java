@@ -587,7 +587,7 @@ public class XMLInterpreter {
                 String sort = element.getContent().get(0).getValue();
 
                 if (sort.equals("Cancion")){
-                    BTree bTree = new BTree(0);
+                    BTree bTree = new BTree();
                     bTree.quickSort();
 
                 }else if (sort.contains("Artista")){

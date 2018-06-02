@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lib1" level="project" />
+    <orderEntry type="library" name="de.u-mass:lastfm-java:0.1.2" level="project" />
   </component>
 </module>

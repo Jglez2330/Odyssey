@@ -3,27 +3,29 @@ package DataStructuress;
 import com.google.gson.JsonObject;
 
 public class BNode {
-	
+
 	private BNode[] child;
-    private JsonObject[] data;
-    private int order;
-    private int count;
-    private boolean leaf;
+	private JsonObject[] data;
+	private int order;
+	private int count;
+	private boolean leaf = true;
 
-    public BNode(JsonObject[] data, int order){
-        this.data = data;
-        this.order = order;
-    }
+	public BNode(int order){
+		this.order = 2*order;
+		this.data = new JsonObject[this.order];
+		this.child = new BNode[this.order+1];
+
+	}
 
 
-    public JsonObject[] getData() {
-        return data;
-    }
-    
-    public JsonObject getData(int i) {
-        return data[i];
-    }
-    
+	public JsonObject[] getData() {
+		return data;
+	}
+
+	public JsonObject getData(int i) {
+		return data[i];
+	}
+
 
 
 	public BNode getChild(int i) {
@@ -39,7 +41,7 @@ public class BNode {
 	public void setData(JsonObject[] data) {
 		this.data = data;
 	}
-	
+
 	public int getCount() {
 		return count;
 	}
@@ -59,6 +61,6 @@ public class BNode {
 	public void setData(int i, JsonObject data) {
 		this.data[i] = data;
 	}
-	
+
 }
 

@@ -2,20 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="88c5695c-7967-49b2-8361-58a0b41c6881" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/de_u_mass_lastfm_java_0_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DataStructuress/Tree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Odyssey.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Odyssey1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Odyssey/DataManage/XMLInterpreter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Odyssey/DataStructures/Node.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Odyssey/DataStructuress/AVLTree.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Odyssey/DataStructuress/Node.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Odyssey/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Odyssey/Socket/Server.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataBase.JSON" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataBase.JSON" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odyssey1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Odyssey1.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataManage/APIManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataManage/APIManage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataManage/XMLInterpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataManage/XMLInterpreter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Users.JSON" beforeDir="false" afterPath="$PROJECT_DIR$/src/Users.JSON" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataStructuress/AVLTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataStructuress/AVLTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataStructuress/BNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataStructuress/BNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataStructuress/BTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataStructuress/BTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataStructuress/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataStructuress/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataStructuress/SplayTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataStructuress/SplayTree.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,11 +33,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="XMLInterpreter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="XMLInterpreter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DataManage/XMLInterpreter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="70" column="28" lean-forward="true" selection-start-line="70" selection-start-column="28" selection-end-line="70" selection-end-column="28" />
+            <state relative-caret-position="-1407">
+              <caret line="594" column="52" selection-start-line="594" selection-start-column="52" selection-end-line="594" selection-end-column="52" />
               <folding>
                 <element signature="method#addSong#0;class#XMLInterpreter#0" />
                 <element signature="method#saveDataBase#0;class#XMLInterpreter#0" />
@@ -56,8 +53,16 @@
                 <element signature="method#retrieveUsers#0;class#XMLInterpreter#0" />
                 <element signature="method#getRequestedSong#0;class#XMLInterpreter#0" />
                 <element signature="method#streamingSong#0;class#XMLInterpreter#0" />
-                <element signature="method#Sort#0;class#XMLInterpreter#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="APIManage.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/DataManage/APIManage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -82,6 +87,13 @@
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -90,7 +102,14 @@
       <list>
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/src/Socket/Server.java" />
+        <option value="$PROJECT_DIR$/src/DataStructuress/AVLTree.java" />
+        <option value="$PROJECT_DIR$/src/DataStructuress/BNode.java" />
+        <option value="$PROJECT_DIR$/src/DataStructuress/BTree.java" />
+        <option value="$PROJECT_DIR$/src/DataStructuress/Node.java" />
+        <option value="$PROJECT_DIR$/src/DataStructuress/SplayTree.java" />
+        <option value="$PROJECT_DIR$/src/DataStructuress/Tree.java" />
         <option value="$PROJECT_DIR$/src/DataManage/XMLInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/DataManage/APIManage.java" />
       </list>
     </option>
   </component>
@@ -116,8 +135,14 @@
     <panes />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -206,20 +231,20 @@
       <updated>1527875453084</updated>
       <workItem from="1527875476253" duration="15708000" />
       <workItem from="1527915694108" duration="1511000" />
-      <workItem from="1527918960504" duration="3469000" />
+      <workItem from="1527918960504" duration="5773000" />
+      <workItem from="1527927205405" duration="2521000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20688000" />
+    <option name="totallyTimeSpent" value="25513000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1296" height="776" extended-state="6" />
+    <frame x="-8" y="-8" width="1296" height="776" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32980332" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
@@ -227,7 +252,7 @@
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32980332" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32980332" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
@@ -245,6 +270,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32980332" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -259,6 +285,50 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Socket/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1938">
+          <caret line="114" column="4" selection-start-line="114" selection-start-column="4" selection-end-line="114" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataBase.JSON">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="200" selection-start-column="200" selection-end-column="200" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataManage/XMLInterpreter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10098">
+          <caret line="594" column="52" lean-forward="true" selection-start-line="594" selection-start-column="52" selection-end-line="594" selection-end-column="52" />
+          <folding>
+            <element signature="method#addSong#0;class#XMLInterpreter#0" />
+            <element signature="method#saveDataBase#0;class#XMLInterpreter#0" />
+            <element signature="method#loadDataBase#0;class#XMLInterpreter#0" />
+            <element signature="method#addSong#1;class#XMLInterpreter#0" />
+            <element signature="method#deleteSong#1;class#XMLInterpreter#0" />
+            <element signature="method#register#0;class#XMLInterpreter#0" />
+            <element signature="method#register#1;class#XMLInterpreter#0" />
+            <element signature="method#saveUsersDataBase#0;class#XMLInterpreter#0" />
+            <element signature="method#loadUserDataBase#0;class#XMLInterpreter#0" />
+            <element signature="method#access#0;class#XMLInterpreter#0" />
+            <element signature="method#access#1;class#XMLInterpreter#0" />
+            <element signature="method#retrieveUsers#0;class#XMLInterpreter#0" />
+            <element signature="method#getRequestedSong#0;class#XMLInterpreter#0" />
+            <element signature="method#streamingSong#0;class#XMLInterpreter#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -299,7 +369,6 @@
             <element signature="method#retrieveUsers#0;class#XMLInterpreter#0" />
             <element signature="method#getRequestedSong#0;class#XMLInterpreter#0" />
             <element signature="method#streamingSong#0;class#XMLInterpreter#0" />
-            <element signature="method#Sort#0;class#XMLInterpreter#0" />
           </folding>
         </state>
       </provider>
@@ -330,7 +399,6 @@
             <element signature="method#retrieveUsers#0;class#XMLInterpreter#0" />
             <element signature="method#getRequestedSong#0;class#XMLInterpreter#0" />
             <element signature="method#streamingSong#0;class#XMLInterpreter#0" />
-            <element signature="method#Sort#0;class#XMLInterpreter#0" />
           </folding>
         </state>
       </provider>
@@ -377,10 +445,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataStructuress/AVLTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4896">
+          <caret line="289" column="1" selection-start-line="289" selection-start-column="1" selection-end-line="289" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#716#717#0" expanded="true" />
+            <element signature="e#748#749#0" expanded="true" />
+            <element signature="e#3461#3473#0" expanded="true" />
+            <element signature="e#4368#4369#0" expanded="true" />
+            <element signature="e#4394#4395#0" expanded="true" />
+            <element signature="e#6245#6246#0" expanded="true" />
+            <element signature="e#6274#6275#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataStructuress/BNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="22" lean-forward="true" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataStructuress/BTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2839">
+          <caret line="175" column="1" selection-start-line="175" selection-start-column="1" selection-end-line="175" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataStructuress/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataStructuress/SplayTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="650">
+          <caret line="238" selection-start-line="238" selection-end-line="238" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataStructuress/Tree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="28" lean-forward="true" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/DataManage/XMLInterpreter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="70" column="28" lean-forward="true" selection-start-line="70" selection-start-column="28" selection-end-line="70" selection-end-column="28" />
+        <state relative-caret-position="-1407">
+          <caret line="594" column="52" selection-start-line="594" selection-start-column="52" selection-end-line="594" selection-end-column="52" />
           <folding>
             <element signature="method#addSong#0;class#XMLInterpreter#0" />
             <element signature="method#saveDataBase#0;class#XMLInterpreter#0" />
@@ -396,8 +519,14 @@
             <element signature="method#retrieveUsers#0;class#XMLInterpreter#0" />
             <element signature="method#getRequestedSong#0;class#XMLInterpreter#0" />
             <element signature="method#streamingSong#0;class#XMLInterpreter#0" />
-            <element signature="method#Sort#0;class#XMLInterpreter#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataManage/APIManage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -418,7 +547,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>No facets are configured</last-edited>
+          <last-edited />
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -466,7 +595,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>lib</last-edited>
+          <last-edited>de.u-mass:lastfm-java:0.1.2</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
