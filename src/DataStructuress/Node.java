@@ -25,7 +25,7 @@ public class Node {
     public JsonObject getData() {
         return data;
     }
-
+    
 
     public Node getLeft() {
         return left;
@@ -35,16 +35,16 @@ public class Node {
         return right;
     }
 
-    public int getHeight() {
-        return height;
-    }
+	public int getHeight() {
+		return height;
+	}
 
-    public void setHeight(int i) {
-        height = i;
-    }
+	public void setHeight(int i) {
+		height = i;
+	}
 
-    public void setData(JsonObject data) {
-        this.data = data;
-    }
+	public void setData(JsonObject data) {
+		this.data = data;
+	}
 }
 
