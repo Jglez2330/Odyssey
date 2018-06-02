@@ -127,6 +127,12 @@ public class Server implements Runnable{
             }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 26){
                 XMLInterpreter.editSong(listaElementos);
 
+            }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 51){
+                XMLInterpreter.deleteMessages();
+
+            }else if (Integer.parseInt(opcode.getContent(0).getValue()) == 52){
+                XMLInterpreter.getMessages();
+
             }
             listen();
         }
