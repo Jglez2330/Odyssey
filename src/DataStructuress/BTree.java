@@ -8,56 +8,63 @@ import com.google.gson.JsonObject;
 
 import DataManage.XMLInterpreter;
 
-public class BTree {
+public class BTree extends Tree {
 	private JsonArray dataBase;
 	private JsonObject[] songNames;
 	public BNode root;
 	private int order;
+	
 
-	public BTree(int order) {
-		this. order = order;
-		this.root = new BNode(null, order);
+	public BTree(){
+		this. order = 4;
+		this.root = new BNode(order);
+		try {
+			buildTree();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
+	
 
-
-	public void buildTree(JsonObject[] array) throws FileNotFoundException {
+	public void buildTree() throws FileNotFoundException {
 		this.dataBase = XMLInterpreter.loadDataBase();
 		songNames = new JsonObject[this.dataBase.size()];
-		for(int i=0; i < array.length; i++) {
+		for(int i=0; i < songNames.length; i++) {
 			songNames[i] = (JsonObject) this.dataBase.get(i);
-			insert(array[i]);
+			insert(songNames[i]);
+			System.out.println("inserted");
 		}
 
 	}
 
-	public void split(BNode x, int i, BNode y){
-		BNode z = new BNode(null,order);	                					
-		z.setLeaf(y.isLeaf());
+	public void split(BNode dad, int i, BNode son){
+		BNode z = new BNode(order);	                					
+		z.setLeaf(son.isLeaf());
 		z.setCount(order-1);
 		for(int j = 0; j < order - 1; j++){
-			z.setData(j, y.getData(j+order));
+			z.setData(j, son.getData(j+order));
 		}
-		if(!y.isLeaf()){
+		if(!son.isLeaf()){
 			for(int k = 0; k < order; k++){
-				z.setChild(k, y.getChild(k+order));
+				z.setChild(k, son.getChild(k+order));
 			}
 		}
-		y.setCount(order-1);
+		son.setCount(order-1);
 
-		for(int j = x.getCount() ; j> i ; j--){
+		for(int j = dad.getCount() ; j> i ; j--){
 
-			x.setChild(j+1, x.getChild(j)); 
+			dad.setChild(j+1, dad.getChild(j)); 
 		}
-		x.setChild(i+1,z); 
-		for(int j = x.getCount(); j> i; j--){
-			x.setData(j + 1, x.getData(j)); 
+		dad.setChild(i+1,z); 
+		for(int j = dad.getCount(); j> i; j--){
+			dad.setData(j + 1, dad.getData(j)); 
 		}
-		x.setData(i, y.getData(order-1));
-		y.setData(order-1, null); 
+		dad.setData(i, son.getData(order-1));
+		son.setData(order-1, null); 
 		for(int j = 0; j < order - 1; j++){
-			y.setData(j + order, null); 
+			son.setData(j + order, null); 
 		}
-		x.setCount(x.getCount()+1);  
+		dad.setCount(dad.getCount()+1);  
 	}
 
 
@@ -69,14 +76,14 @@ public class BTree {
 				i--;
 			}
 			x.setData(i, value);
-			x.setCount(x.getCount()+1); 
+			x.setCount(x.getCount()+1);
 		}
 		else{
 			int j = 0;
 			while(j < x.getCount()  && value.get("Song").getAsString().compareTo(x.getData(j).get("Song").getAsString()) > 0){	
-				System.out.println();
 				j++;
 			}
+			
 			if(x.getChild(j) != null) {
 				if(x.getChild(j).getCount() == order*2 - 1){
 					split(x,j,x.getChild(j));
@@ -91,9 +98,10 @@ public class BTree {
 	}
 
 	public void insert(JsonObject value){
-		BNode r = root; 
-		if(r.getCount() == 2*order - 1){
-			BNode s = new BNode(null,order);
+		BNode r = this.root;
+		System.out.println(r.getCount());
+		if(r.getCount() == order){
+			BNode s = new BNode(order);
 			root.setData(s.getData());    
 			s.setLeaf(false);
 			s.setCount(0);
@@ -106,13 +114,13 @@ public class BTree {
 		}
 	}
 
-	public void quickSort() throws IOException {
+	public void quickSort(String type) throws IOException {
 		this.dataBase = XMLInterpreter.loadDataBase();
 		songNames = new JsonObject[this.dataBase.size()];
 		for (int i = 0; i < songNames.length; i++){
 			songNames[i] = (JsonObject) this.dataBase.get(i);
 		}
-		quickSort(0, songNames.length -1);
+		quickSort(0, songNames.length -1, type);
 		for(int i = 0; i<songNames.length; i++) {
 			System.out.println(songNames[i]);
     	}
@@ -121,20 +129,20 @@ public class BTree {
     		newArray.add(songNames[i]);
     	}
     	XMLInterpreter.saveDataBase(newArray); 
-    	//buildTree(songNames);
+    	buildTree();
 
     }
 
-    private void quickSort(int lowerIndex, int higherIndex) {
+    private void quickSort(int lowerIndex, int higherIndex, String type) {
 
     	int i = lowerIndex;
     	int j = higherIndex;
     	JsonObject pivot = songNames[lowerIndex+(higherIndex-lowerIndex)/2];
     	while (i <= j) {
-    		while (songNames[i].get("Song").getAsString().compareTo(pivot.get("Song").getAsString()) < 0) {
+    		while (songNames[i].get(type).getAsString().compareTo(pivot.get(type).getAsString()) < 0) {
     			i++;
     		}
-    		while (songNames[j].get("Song").getAsString().compareTo(pivot.get("Song").getAsString()) > 0) {
+    		while (songNames[j].get(type).getAsString().compareTo(pivot.get(type).getAsString()) > 0) {
     			j--;
     		}
     		if (i <= j) {
@@ -146,8 +154,39 @@ public class BTree {
     		}
     	}
     	if (lowerIndex < j)
-    		quickSort(lowerIndex, j);
+    		quickSort(lowerIndex, j, type);
     	else if (i < higherIndex)
-    		quickSort(i, higherIndex);
+    		quickSort(i, higherIndex, type);
     }
+    public boolean searchValue(BNode node, String value) {
+        int i = 1;
+        while (i <= node.getCount() && value.compareTo(node.getData(i-1).get("Song").getAsString()) > 0) {
+            i++;
+        }
+        if (i <= node.getCount() && value.compareTo(node.getData(i-1).get("Song").getAsString()) == 0) {
+            return true;
+        }
+        if (!node.isLeaf()) {
+            return searchValue(node.getChild(i - 1), value);
+        }
+        return false;
+    }
+    
+    public void sort(String type) throws IOException {
+    	this.quickSort(type);
+    }
+
+
+	@Override
+	public JsonObject search(String value) {
+		boolean json = searchValue(root, value);
+		return null;
+	}
+
+
+	@Override
+	public void delete(String value) {
+		delete(value);
+		
+	}
 }

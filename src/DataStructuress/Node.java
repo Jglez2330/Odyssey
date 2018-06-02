@@ -7,9 +7,16 @@ public class Node {
     private Node right;
     private JsonObject data;
     private int height;
-
+    private int key;
+    
     public Node(JsonObject data){
         this.data = data;
+        left = null;
+        right = null;
+    }
+    public Node(int key, JsonObject data) {
+    	this.data = data;
+    	this.key = key;
         left = null;
         right = null;
     }

@@ -12,7 +12,7 @@ public class APIManage {
     private static String user ="Glichet";
     private static String secret ="61e75240ea8ca1859100e89bca5d5b0f";
 
-
+    
     public String encodeField(String in) throws UnsupportedEncodingException {
         // usually, this would be
         //  return java.net.URLEncoder.encode(in, "UTF-8");
