@@ -15,6 +15,14 @@ public class AVLTree extends Tree{
 	private JsonObject[] artistNames;
 	private Node root;
 
+	public AVLTree() {
+		try {
+			buildTree();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void buildTree() throws FileNotFoundException {
@@ -268,6 +276,11 @@ public class AVLTree extends Tree{
 		return x.getData();
 	}
 
+	@Override
+	public void delete() {
+
+	}
+
 	private Node search(Node x, String value) {
 		if (root == null) {
 			return null;
@@ -281,10 +294,68 @@ public class AVLTree extends Tree{
 		}
 		else return x;
 	}
-	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-
+	//@Override
+	public void delete(String value) {
+		if (!contains(value)) {
+			return;
+		}
+		root = delete(root, value);
 	}
 
+	private Node delete(Node x, String value) {
+		int cmp = value.compareTo(x.getData().get("Artist").getAsString());
+		if (cmp < 0) {
+			x.setLeft(delete(x.getLeft(), value));
+		}
+		else if (cmp > 0) {
+			x.setRight(delete(x.getRight(), value));
+		}
+		else {
+			if (x.getLeft() == null) {
+				return x.getRight();
+			}
+			else if (x.getRight() == null) {
+				return x.getLeft();
+			}
+			else {
+				Node y = x;
+				x = minValueNode(y.getRight());
+				x.setRight(deleteMin(y.getRight()));
+				x.setLeft(y.getLeft());
+			}
+		}
+		x.setHeight(1 + Math.max(x.getLeft().getHeight(), x.getRight().getHeight()));
+		return balance(x);
+	}
+	private boolean contains(String value) {
+		return false;
+	}
+	private Node balance(Node x) {
+		if (getBalance(x) < -1) {
+			if (getBalance(x.getRight()) > 0) {
+				x.setRight(rightRotation(x.getRight()));
+			}
+			x = leftRotation(x);
+		}
+		else if (getBalance(x) > 1) {
+			if (getBalance(x.getLeft()) < 0) {
+				x.setLeft(leftRotation(x.getLeft()));
+			}
+			x = rightRotation(x);
+		}
+		return x;
+	}
+
+
+	private Node deleteMin(Node x) {
+		if (x.getLeft() == null) {
+			return x.getRight();
+		}
+		x.setLeft(deleteMin(x.getLeft()));
+		x.setHeight(1 + Math.max(height(x.getLeft()), height(x.getRight())));
+		return balance(x);
+	}
+
+
 }
+
