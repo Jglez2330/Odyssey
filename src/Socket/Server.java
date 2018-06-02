@@ -86,7 +86,7 @@ public class Server implements Runnable{
         if (data != null) {
 
 
-            SAXBuilder saxBuilder = new SAXBuilder();
+        	SAXBuilder saxBuilder = new SAXBuilder();
             Document document = saxBuilder.build(new StringReader(xml.toString()));
             Element root = document.getRootElement();
             List<Element> listaElementos = root.getChildren();

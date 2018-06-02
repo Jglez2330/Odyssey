@@ -8,11 +8,13 @@ public class BNode {
     private JsonObject[] data;
     private int order;
     private int count;
-    private boolean leaf;
+    private boolean leaf = true;
 
-    public BNode(JsonObject[] data, int order){
-        this.data = data;
-        this.order = order;
+    public BNode(int order){
+        this.order = 2*order;
+    	this.data = new JsonObject[this.order];
+    	this.child = new BNode[this.order+1];
+        
     }
 
 

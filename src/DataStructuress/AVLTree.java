@@ -10,24 +10,31 @@ import com.google.gson.JsonObject;
 
 import DataManage.XMLInterpreter;
 
-public class AVLTree {
+public class AVLTree extends Tree{
     private JsonArray dataBase;
     private JsonObject[] artistNames;
     private Node root;
 
+    public AVLTree() {
+    	try {
+			buildTree();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     
-
-    public void buildTree(JsonObject[] array) throws FileNotFoundException {
+    @Override
+    public void buildTree() throws FileNotFoundException {
     	this.dataBase = XMLInterpreter.loadDataBase();
         artistNames = new JsonObject[this.dataBase.size()];
-		for(int i=0; i < array.length; i++) {
+		for(int i=0; i < artistNames.length; i++) {
 			artistNames[i] = (JsonObject) this.dataBase.get(i);
-			insert(array[i]);
+			insert(artistNames[i]);
 		}
 		
 		
 	}
-    
     private void insert(JsonObject data){
     	root = insert(root, data);
     }
@@ -157,7 +164,7 @@ public class AVLTree {
     		newArray.add(artistNames[i]);
     	}
     	XMLInterpreter.saveDataBase(newArray); 
-    	buildTree(artistNames);
+    	buildTree();
     }
 
     private static int getIndex (char letter) {
@@ -255,5 +262,136 @@ public class AVLTree {
     {
         return (a > b) ? a : b;
     }
+    
+    public void sort() throws IOException {
+    	this.radixSort();
+    }
+
+	@Override
+	public JsonObject search(String value) {
+		Node x = search(root, value);
+		if (x == null) {
+			return null;
+		}
+		return x.getData();
+	}
+
+	private Node search(Node x, String value) {
+		if (root == null) {
+			return null;
+		}
+		int cmp = value.compareTo(x.getData().get("Artist").getAsString());
+		if (cmp < 0) {
+			return search(x.getLeft(), value);
+		}
+		else if (cmp > 0) {
+			return search(x.getRight(), value);
+		}
+		else return x;
+	}
+	@Override
+	public void delete(String value) {
+		root = delete(root, value);
+	}
+	
+	private Node delete(Node x, String value) {
+        int cmp = value.compareTo(x.getData().get("Artist").getAsString());
+        if (cmp < 0) {
+            x.setLeft(delete(x.getLeft(), value));
+        }
+        else if (cmp > 0) {
+            x.setRight(delete(x.getRight(), value));
+        }
+        else {
+            if (x.getLeft() == null) {
+                return x.getRight();
+            }
+            else if (x.getRight() == null) {
+                return x.getLeft();
+            }
+            else {
+                Node y = x;
+                x = minValueNode(y.getRight());
+                x.setRight(deleteMin(y.getRight()));
+                x.setLeft(y.getLeft());
+            }
+        }
+        x.setHeight(1 + Math.max(x.getLeft().getHeight(), x.getRight().getHeight()));
+        return balance(x);
+    }
+	private Node balance(Node x) {
+		if (getBalance(x) < -1) {
+			if (getBalance(x.getRight()) > 0) {
+				x.setRight(rightRotation(x.getRight()));
+			}
+			x = leftRotation(x);
+		}
+		else if (getBalance(x) > 1) {
+			if (getBalance(x.getLeft()) < 0) {
+				x.setLeft(leftRotation(x.getLeft()));
+			}
+			x = rightRotation(x);
+		}
+		return x;
+	}
+
+
+	private Node deleteMin(Node x) {
+		if (x.getLeft() == null) {
+			return x.getRight();
+		}
+		x.setLeft(deleteMin(x.getLeft()));
+		x.setHeight(1 + Math.max(height(x.getLeft()), height(x.getRight())));
+		return balance(x);
+	}
+
+	public void quickSort(String type) throws IOException {
+		this.dataBase = XMLInterpreter.loadDataBase();
+		artistNames = new JsonObject[this.dataBase.size()];
+		for (int i = 0; i < artistNames.length; i++){
+			artistNames[i] = (JsonObject) this.dataBase.get(i);
+		}
+		quickSort(0, artistNames.length -1,type);
+		for(int i = 0; i<artistNames.length; i++) {
+			System.out.println(artistNames[i]);
+		}
+		JsonArray newArray = new JsonArray();
+		for(int i=0; i<artistNames.length;i++) {
+			newArray.add(artistNames[i]);
+		}
+		XMLInterpreter.saveDataBase(newArray); 
+		buildTree();
+
+	}
+
+	private void quickSort(int lowerIndex, int higherIndex, String type) {
+
+		int i = lowerIndex;
+		int j = higherIndex;
+		JsonObject pivot = artistNames[lowerIndex+(higherIndex-lowerIndex)/2];
+		while (i <= j) {
+			while (artistNames[i].get(type).getAsString().compareTo(pivot.get(type).getAsString()) < 0) {
+				i++;
+			}
+			while (artistNames[j].get(type).getAsString().compareTo(pivot.get(type).getAsString()) > 0) {
+				j--;
+			}
+			if (i <= j) {
+				JsonObject temp = artistNames[i];
+				artistNames[i] = artistNames[j];
+				artistNames[j] = temp;
+				i++;
+				j--;
+			}
+		}
+		if (lowerIndex < j)
+			quickSort(lowerIndex, j,type);
+		else if (i < higherIndex)
+			quickSort(i, higherIndex,type);
+	}
+
+	public void sort(String type) throws IOException {
+		this.quickSort(type);
+	}
 }
 
