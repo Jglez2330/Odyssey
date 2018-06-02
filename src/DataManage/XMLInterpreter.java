@@ -587,7 +587,7 @@ public class XMLInterpreter {
                 String sort = element.getContent().get(0).getValue();
 
                 if (sort.equals("Cancion")){
-                    BTree bTree = new BTree();
+                    BTree bTree = new BTree(0);
                     bTree.quickSort();
 
                 }else if (sort.contains("Artista")){
@@ -703,4 +703,59 @@ public class XMLInterpreter {
 
     }
 
+    public static void recomendar(String song, String album) throws IOException {
+        JsonArray dataBaseUsers = loadUserDataBase();
+        JsonArray newDataBase = new JsonArray();
+
+        String friends  = "";
+        for (int i = 0; i < dataBaseUsers.size(); i++){
+            JsonObject usuario = dataBaseUsers.get(i).getAsJsonObject();
+            if (usuario.get("User").getAsString().equals(loggedUser)){
+                friends = usuario.get("Friends").getAsString();
+
+                break;
+            }
+        }
+        for (int i = 0; i < dataBaseUsers.size(); i++){
+            JsonObject object = dataBaseUsers.get(i).getAsJsonObject();
+            if (friends.contains(object.get("User").getAsString())){
+
+                JsonObject newObject = new JsonObject();
+                newObject.addProperty("User",object.get("User").getAsString());
+                newObject.addProperty("Password",object.get("Password").getAsString());
+                newObject.addProperty("Style",object.get("Style").getAsString());
+                newObject.addProperty("Name",object.get("Name").getAsString());
+                newObject.addProperty("Age",object.get("Age").getAsString());
+                newObject.addProperty("Friends",object.get("Friends").getAsString());
+
+                newObject.addProperty("Messages", "El usuario: "+ loggedUser+ ", le ha recomendado: " + song + " por " + album);
+                newDataBase.add(newObject);
+
+
+            }else{
+                newDataBase.add(object);
+            }
+        }
+        saveUsersDataBase(newDataBase);
+
+    }
+
+    public static void recomendar(List<Element> listaElementos) throws IOException {
+        String song  = "";
+        String artist  = "";
+
+
+        for (int i  = 0; i < listaElementos.size(); i++){
+            Element element = (Element) listaElementos.get(i);
+            if (element.getName().equals("SongName")){
+                song  = element.getContent().get(0).getValue();
+            }else if (element.getName().contains("Artist")){
+                artist = element.getContent().get(0).getValue();
+            }
+
+
+        }
+        recomendar(song,artist);
+
+    }
 }
